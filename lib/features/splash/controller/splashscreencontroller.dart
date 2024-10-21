@@ -1,4 +1,4 @@
-import 'package:fire_app/features/onboarding/onboarding.dart';
+import 'package:fire_app/features/onboarding/views/onboarding.dart';
 import 'package:get/get.dart';
 
 class SplashController extends GetxController {
@@ -7,7 +7,7 @@ class SplashController extends GetxController {
     // Wait for 3 seconds (adjust as per requirement)
     await Future.delayed(const Duration(seconds: 3));
 
-    // Navigate to MainNavigation (replaces the splash screen)
+    // Navigate to the OnboardingScreen and remove the splash screen from the stack
     Get.offAll(() => const OnboardingScreen());
   }
 }

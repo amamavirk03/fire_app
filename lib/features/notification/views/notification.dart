@@ -18,8 +18,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   void initState() {
     super.initState();
-
-    // Safely retrieve arguments with a fallback to an empty list if null
     notificationData = Get.arguments ?? [];
   }
 

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fire_app/common/styles/text_style.dart';
 import 'package:fire_app/features/home/components/searchbar.dart';
 import 'package:fire_app/utils/constants/colors.dart';
@@ -91,7 +90,7 @@ Widget customImageTextRow() {
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(8),
           image: const DecorationImage(
-            image: AssetImage(TImages.food2),
+            image: AssetImage(TImages.food1),
             fit: BoxFit.cover,
           ),
         ),

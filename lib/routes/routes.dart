@@ -1,21 +1,23 @@
-import 'package:fire_app/features/auth/login/views/login.dart';
-import 'package:fire_app/features/auth/signup/views/signup.dart';
+import 'package:fire_app/features/auth/model/user_model.dart';
+import 'package:fire_app/features/auth/views/login.dart';
+import 'package:fire_app/features/auth/views/signup.dart';
 import 'package:fire_app/features/home/views/homeScreen.dart';
 import 'package:fire_app/features/navigation/navigation.dart';
 import 'package:fire_app/features/notification/views/notification.dart';
-import 'package:fire_app/features/onboarding/onboarding.dart';
-import 'package:fire_app/features/postscreen/postscreen.dart';
+import 'package:fire_app/features/onboarding/views/onboarding.dart';
+import 'package:fire_app/features/postscreen/views/postscreen.dart';
 import 'package:fire_app/features/reciepepage.dart/reciepepage.dart';
 import 'package:fire_app/features/splash/splashscreen.dart';
 import 'package:fire_app/routes/routename.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class GetAppRoute {
   List<GetPage> getRoutes() {
     return [
       GetPage(
-        name: AppRoutes.splashScreen, // Route for splash screen
-        page: () => const Splashscreen(), // Splash screen page
+        name: AppRoutes.splashScreen,
+        page: () => const Splashscreen(),
         transition: Transition.fadeIn,
         transitionDuration: const Duration(milliseconds: 400),
       ),
@@ -30,11 +32,14 @@ class GetAppRoute {
         page: () => const NotificationScreen(),
         transition: Transition.rightToLeft,
         transitionDuration: const Duration(milliseconds: 400),
-        // Ensure arguments are passed if needed
       ),
       GetPage(
         name: AppRoutes.navigation,
-        page: () => const MainNavigation(), // MainNavigation for other screens
+        page: () {
+        var  token = UserModel().token.toString();
+          // final token = Get.arguments;
+          return MainNavigation(token: token);
+        },
         transition: Transition.downToUp,
         transitionDuration: const Duration(milliseconds: 400),
       ),
@@ -64,7 +69,11 @@ class GetAppRoute {
       ),
       GetPage(
         name: AppRoutes.post,
-        page: () => const PostScreen(),
+        page: () {
+          final token =
+              Get.arguments as String; // Retrieve the token passed as argument
+          return PostScreen(token: token); // Pass token to PostScreen
+        },
         transition: Transition.downToUp,
         transitionDuration: const Duration(milliseconds: 400),
       ),
@@ -76,4 +85,6 @@ class GetAppRoute {
       ),
     ];
   }
+
+  //dekh terminal
 }

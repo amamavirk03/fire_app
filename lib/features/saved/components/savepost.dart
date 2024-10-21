@@ -5,21 +5,70 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SavePostCard extends StatefulWidget {
-  const SavePostCard({super.key});
+  final String postID; // Post identifier
+  final Map<String, dynamic> postDetails; // Post details to save in Firestore
+
+  const SavePostCard(
+      {super.key, required this.postID, required this.postDetails});
 
   @override
   State<SavePostCard> createState() => _SavePostCardState();
 }
 
 class _SavePostCardState extends State<SavePostCard> {
-  bool isFavorite = false; // Toggle state for the bookmark icon
+  bool isFavorite = false;
 
-  // Toggle favorite state
-  void onFavoriteToggle() {
-    setState(() {
-      isFavorite = !isFavorite;
-    });
+  @override
+  void initState() {
+    super.initState();
+    // checkIfPostIsSaved();
   }
+
+  // // Check if the post is already saved in Firestore
+  // void checkIfPostIsSaved() async {
+  //   final user = FirebaseAuth.instance.currentUser;
+  //   if (user != null) {
+  //     try {
+  //       var snapshot = await FirebaseFirestore.instance
+  //           .collection('saved_posts')
+  //           .doc(user.uid)
+  //           .get();
+
+  //       if (snapshot.exists) {
+  //         setState(() {
+  //           isFavorite = snapshot.data()?[widget.postID] != null;
+  //         });
+  //       }
+  //     } catch (e) {
+  //       print("Error fetching saved posts: $e");
+  //       // Handle error appropriately
+  //     }
+  //   }
+  // }
+
+  // // Toggle favorite state and save/remove post in Firestore
+  // void onFavoriteToggle() async {
+  //   final user = FirebaseAuth.instance.currentUser;
+  //   if (user != null) {
+  //     setState(() {
+  //       isFavorite = !isFavorite;
+  //     });
+
+  //     if (isFavorite) {
+  //       await FirebaseFirestore.instance
+  //           .collection('saved_posts')
+  //           .doc(user.uid)
+  //           .set({widget.postID: widget.postDetails}, SetOptions(merge: true));
+  //     } else {
+  //       await FirebaseFirestore.instance
+  //           .collection('saved_posts')
+  //           .doc(user.uid)
+  //           .update({
+  //         widget.postID: FieldValue.delete(),
+  //       });
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +77,8 @@ class _SavePostCardState extends State<SavePostCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Image container (without background color)
           Container(
-            width: 320.w, // Full width for the image container
+            width: 320.w,
             height: 150.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
@@ -39,17 +87,15 @@ class _SavePostCardState extends State<SavePostCard> {
               ),
               image: const DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage(TImages.food2),
+                image: AssetImage(TImages.food1),
               ),
             ),
           ),
-          // Text and icons section with background color
           Container(
             width: 320.w,
             padding: EdgeInsets.all(10.sp),
             decoration: BoxDecoration(
-              color:
-                  TColors.lightContainer, // Background color for text section
+              color: TColors.lightContainer,
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(16.r),
                 bottomRight: Radius.circular(16.r),
@@ -58,6 +104,7 @@ class _SavePostCardState extends State<SavePostCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                // View count row
                 Row(
                   children: [
                     Icon(
@@ -69,17 +116,18 @@ class _SavePostCardState extends State<SavePostCard> {
                     Text(
                       "186",
                       style: TTextStyles.subtitle.copyWith(
-                        color: TColors.darkGrey, // Text color
+                        color: TColors.darkGrey,
                       ),
                     ),
                   ],
                 ),
                 // Bookmark icon with toggle functionality
                 IconButton(
-                  onPressed: onFavoriteToggle, // Toggle the bookmark state
+                  onPressed: () {},
+                  // onFavoriteToggle, // Toggle bookmark state
                   icon: Icon(
                     isFavorite ? Icons.bookmark : Icons.bookmark_border,
-                    color: TColors.primary, // Set the color to primary
+                    color: TColors.primary,
                   ),
                 ),
               ],

@@ -1,19 +1,37 @@
 import 'package:fire_app/common/styles/text_style.dart';
 import 'package:fire_app/utils/constants/colors.dart';
-import 'package:fire_app/utils/constants/image_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:iconly/iconly.dart';
 
-class Stackcard extends StatefulWidget {
-  const Stackcard({super.key});
+class StackCard extends StatefulWidget {
+  final String title;
+  final String imageUrl;
+  final String cookTime;
+  final String avatarImage;
+  final String userName;
+
+  const StackCard({
+    super.key,
+    required this.title,
+    required this.imageUrl,
+    required this.cookTime,
+    required this.avatarImage,
+    required this.userName,
+  });
 
   @override
-  State<Stackcard> createState() => _StackcardState();
+  State<StackCard> createState() => _StackCardState();
 }
 
-class _StackcardState extends State<Stackcard> {
-  bool isFavorite = false; // Toggle state for heart icon
+class _StackCardState extends State<StackCard> {
+  bool isFavorite = false;
+
+  // Toggle state for the bookmark icon
+  void onFavoriteToggle() {
+    setState(() {
+      isFavorite = !isFavorite;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,51 +42,50 @@ class _StackcardState extends State<Stackcard> {
         color: TColors.lightContainer,
         borderRadius: BorderRadius.circular(16.r),
       ),
-      width: 320.w, // Fixed width for the card
+      width: 320.w,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Image section (occupies the full upper side)
+          // Image section
           Container(
-            width: 320.w, // Fixed width for the image container
-            height: 220
-                .h, // Increased height for the image to fully cover the upper part
+            width: 320.w,
+            height: 220.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(16.r),
                 topRight: Radius.circular(16.r),
               ),
-              image: const DecorationImage(
+              image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage(TImages.food2),
+                image: NetworkImage(widget.imageUrl),
               ),
             ),
           ),
-          SizedBox(height: 10.h),
-          // Row for Clock and Rating
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.sp),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            padding: EdgeInsets.symmetric(horizontal: 15.sp, vertical: 10.sp),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                clock(),
-                rating(),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                  child: Text(
+                    widget.title,
+                    style: TTextStyles.heading.copyWith(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10.h),
+
+                // Profile and Save Row
+                ProfileAndSaveRow(
+                  avatarImage: widget.avatarImage,
+                  userName: widget.userName,
+                  isFavorite: isFavorite,
+                  onFavoriteToggle: onFavoriteToggle,
+                ),
               ],
-            ),
-          ),
-          SizedBox(height: 10.h),
-          // Custom widget for profile and save row
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.sp),
-            child: ProfileAndSaveRow(
-              avatarImage: TImages.chicken,
-              userName: "John Doe",
-              isFavorite: isFavorite,
-              onFavoriteToggle: () {
-                setState(() {
-                  isFavorite = !isFavorite;
-                });
-              },
             ),
           ),
         ],
@@ -98,40 +115,6 @@ class _StackcardState extends State<Stackcard> {
             SizedBox(width: 3.w),
             Text(
               "5.0",
-              style: TTextStyles.subtitle.copyWith(
-                fontSize: 10.sp,
-                fontWeight: FontWeight.w600,
-                color: TColors.black,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Clock widget
-  Widget clock() {
-    return Container(
-      width: 60.w,
-      height: 20.h,
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.7),
-        borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(color: TColors.white),
-      ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 5.sp, vertical: 2.sp),
-        child: Row(
-          children: [
-            Icon(
-              IconlyLight.time_circle,
-              size: 12.sp,
-              color: Colors.black,
-            ),
-            SizedBox(width: 3.w),
-            Text(
-              "12:09",
               style: TTextStyles.subtitle.copyWith(
                 fontSize: 10.sp,
                 fontWeight: FontWeight.w600,
@@ -182,7 +165,7 @@ class ProfileAndSaveRow extends StatelessWidget {
           onPressed: onFavoriteToggle,
           icon: Icon(
             isFavorite ? Icons.favorite : Icons.favorite_border,
-            color: isFavorite ? TColors.error : TColors.error,
+            color: TColors.error,
           ),
         ),
       ],

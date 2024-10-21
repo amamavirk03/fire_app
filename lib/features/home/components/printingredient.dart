@@ -30,7 +30,7 @@ class Printingredient extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 20.sp, horizontal: 16.sp),
-      child: Container(
+      child: SizedBox(
         height: 400.h, // Set a fixed height for the GridView
         child: GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

@@ -1,13 +1,15 @@
 import 'package:fire_app/features/home/views/homeScreen.dart';
-import 'package:fire_app/features/postscreen/postscreen.dart';
-import 'package:fire_app/features/profile/profile.dart';
+import 'package:fire_app/features/postscreen/views/postscreen.dart';
+import 'package:fire_app/features/profilescreen/profilescreen.dart';
 import 'package:fire_app/features/saved/saved.dart';
 import 'package:fire_app/features/search/search.dart';
 import 'package:fire_app/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class MainNavigation extends StatefulWidget {
-  const MainNavigation({super.key});
+  final String token;
+
+  const MainNavigation({super.key, required this.token});
 
   @override
   State<MainNavigation> createState() => _MainNavigationState();
@@ -15,14 +17,19 @@ class MainNavigation extends StatefulWidget {
 
 class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
+  late final List<Widget> _pages;
 
-  final List<Widget> _pages = [
-    const HomeScreen(),
-    const SearchScreen(),
-    const PostScreen(),
-    const SavedScreen(),
-    const ProfileScreen(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _pages = [
+      const HomeScreen(),
+      const SearchScreen(),
+      PostScreen(token: widget.token), // Pass token to PostScreen
+      const SavedScreen(),
+      const ProfilePageScreen(),
+    ];
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -36,6 +43,7 @@ class _MainNavigationState extends State<MainNavigation> {
       backgroundColor: TColors.white,
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: TColors.white,
         type: BottomNavigationBarType.fixed,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,

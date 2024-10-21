@@ -1,4 +1,4 @@
-import 'package:fire_app/common/components/cutomButton.dart';
+import 'package:fire_app/common/components/cutombutton.dart';
 import 'package:fire_app/common/styles/text_style.dart';
 import 'package:fire_app/features/onboarding/controller/onboardingcontroller.dart';
 import 'package:fire_app/utils/constants/colors.dart';

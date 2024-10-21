@@ -1,4 +1,4 @@
-import 'package:fire_app/features/auth/login/views/login.dart';
+import 'package:fire_app/features/auth/views/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,6 +15,6 @@ class OnboardingController extends GetxController {
   }
 
   void navigateToHome() {
-    Get.offAll(() => LoginScreen()); // Navigate to the home screen
+    Get.offAll(() => LoginScreen());
   }
 }

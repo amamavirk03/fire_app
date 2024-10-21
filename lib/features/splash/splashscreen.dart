@@ -13,7 +13,7 @@ class Splashscreen extends StatelessWidget {
     // Initialize the SplashController
     final SplashController splashController = Get.put(SplashController());
 
-    // Navigate to MainNavigation after the delay specified in the SplashController
+    // Start navigation to the next screen
     splashController.startNavigationToHome();
 
     return Scaffold(
@@ -24,8 +24,8 @@ class Splashscreen extends StatelessWidget {
           children: [
             Image.asset(
               TImages.applogo,
-              width: 200,
-              height: 200,
+              width: 200.sp, // Use ScreenUtil for responsiveness
+              height: 200.sp, // Use ScreenUtil for responsiveness
             ),
           ],
         ),

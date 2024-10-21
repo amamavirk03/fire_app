@@ -1,4 +1,4 @@
-import 'package:fire_app/common/components/cutomButton.dart';
+import 'package:fire_app/common/components/cutombutton.dart';
 import 'package:fire_app/utils/constants/image_string.dart';
 import 'package:flutter/material.dart';
 import 'package:fire_app/common/styles/text_style.dart';
@@ -17,13 +17,13 @@ class RecipeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: double.infinity, // Adjust the width to your requirement
-              height: 300.h, // Adjust the height to your requirement
+              width: double.infinity, 
+              height: 300.h,
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(TImages.food2), // Path to your image
+                  image: AssetImage(TImages.food1),
                   fit: BoxFit
-                      .cover, // Makes the image cover the entire container
+                      .cover,
                 ),
               ),
               child: Padding(
@@ -37,7 +37,7 @@ class RecipeScreen extends StatelessWidget {
                       icon: Icon(Icons.arrow_back_ios,
                           size: 20.sp, color: TColors.white),
                       onPressed: () {
-                        Get.back(); // Navigate to the previous screen in stack
+                        Get.back();
                       },
                     ),
                     Container(
