@@ -3,7 +3,6 @@ import 'package:fire_app/features/home/components/profileAppbar.dart';
 import 'package:fire_app/features/home/components/searchbar.dart';
 import 'package:fire_app/features/home/components/stackcard.dart';
 import 'package:fire_app/routes/routename.dart';
-import 'package:fire_app/utils/constants/image_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -20,41 +19,61 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Map<String, dynamic>> posts = [
     {
       'title': 'Spaghetti Carbonara',
-      'imageUrl': TImages.food1,
+      'imageUrl':
+          'https://images.unsplash.com/photo-1546549032-9571cd6b27df?ixlib=rb-4.0.3',
       'cookTime': '20 mins',
-      'avatarImage': TImages.chicken,
+      'avatarImage': 'https://randomuser.me/api/portraits/men/1.jpg',
       'userName': 'Chef John',
       'description': 'A delicious spaghetti carbonara recipe',
       'portion': '2 servings',
+      'ingredients': 'Spaghetti, eggs, bacon, parmesan cheese',
+      'email': 'john@example.com',
     },
     {
       'title': 'Chicken Alfredo',
-      'imageUrl': TImages.food1,
+      'imageUrl':
+          'https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?ixlib=rb-4.0.3',
       'cookTime': '25 mins',
-      'avatarImage': TImages.chicken,
+      'avatarImage': 'https://randomuser.me/api/portraits/women/2.jpg',
       'userName': 'Chef Anna',
       'description': 'Creamy chicken alfredo pasta',
       'portion': '3 servings',
+      'ingredients': 'Chicken, pasta, Alfredo sauce, parmesan cheese',
+      'email': 'anna@example.com',
     },
     {
       'title': 'Tacos',
-      'imageUrl': TImages.food1,
+      'imageUrl':
+          'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?ixlib=rb-4.0.3',
       'cookTime': '15 mins',
-      'avatarImage': TImages.chicken,
+      'avatarImage': 'https://randomuser.me/api/portraits/women/3.jpg',
       'userName': 'Chef Maria',
       'description': 'Spicy and delicious tacos',
       'portion': '4 servings',
+      'ingredients': 'Tortillas, chicken, salsa, cheese, lettuce',
+      'email': 'maria@example.com',
     },
     // Add more posts as needed
   ];
 
   @override
   Widget build(BuildContext context) {
+    // Initialize ScreenUtil with design size
+    ScreenUtil.init(
+      context,
+      designSize: const Size(375, 812), // Standard mobile design size
+      minTextAdapt: true,
+      splitScreenMode: true,
+    );
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 40.sp, horizontal: 15.sp),
+          padding: EdgeInsets.symmetric(
+            vertical: 40.h,
+            horizontal: MediaQuery.of(context).size.width > 600 ? 30.w : 15.w,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -65,7 +84,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Text(
                 "Recommended Posts",
                 style: TTextStyles.heading.copyWith(
-                  fontSize: 18.sp,
+                  fontSize:
+                      MediaQuery.of(context).size.width > 600 ? 24.sp : 18.sp,
                 ),
               ),
               SizedBox(height: 16.h),
@@ -80,6 +100,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     String cookTime = post['cookTime'];
                     String avatarImage = post['avatarImage'];
                     String userName = post['userName'];
+                    String description = post['description'];
+                    String portion = post['portion'];
+                    List<String> ingredients =
+                        (post['ingredients'] as String).split(', ');
+                    String email = post['email'];
 
                     return GestureDetector(
                       onTap: () {
@@ -87,17 +112,28 @@ class _HomeScreenState extends State<HomeScreen> {
                           'id': index,
                           'title': title,
                           'imageUrl': imageUrl,
-                          'description': post['description'],
-                          'portion': post['portion'],
+                          'description': description,
+                          'portion': portion,
                           'cooktime': cookTime,
+                          'userName': userName,
+                          'userEmail': email,
+                          'ingredients': ingredients,
+                          'avatarImage': avatarImage,
                         });
                       },
-                      child: StackCard(
-                        title: title,
-                        imageUrl: imageUrl,
-                        cookTime: cookTime,
-                        avatarImage: avatarImage, // Pass avatarImage
-                        userName: userName, // Pass userName
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          right: MediaQuery.of(context).size.width > 600
+                              ? 20.w
+                              : 10.w,
+                        ),
+                        child: StackCard(
+                          title: title,
+                          imageUrl: NetworkImage(imageUrl),
+                          cookTime: cookTime,
+                          avatarImage: avatarImage,
+                          userName: userName,
+                        ),
                       ),
                     );
                   }),

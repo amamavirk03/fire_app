@@ -41,19 +41,30 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Initialize ScreenUtil with design size
+    ScreenUtil.init(
+      context,
+      designSize: const Size(375, 812), // Standard design size
+      minTextAdapt: true,
+      splitScreenMode: true,
+    );
+
     return Scaffold(
       backgroundColor: TColors.white,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 25.sp, vertical: 20.sp),
+          padding: EdgeInsets.symmetric(
+            horizontal: 25.w,
+            vertical: 20.h,
+          ),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image.asset(
                   TImages.applogo,
-                  height: 150.h,
-                  width: 150.w,
+                  height: 0.18.sh, // 18% of screen height
+                  width: 0.4.sw,  // 40% of screen width
                 ),
                 Text(
                   "Create Account",
@@ -132,22 +143,6 @@ class _SignupScreenState extends State<SignupScreen> {
                     onPressed: () {
                       UserModel user = UserModel();
 
-                      // SignupServices()
-                      //     .signup(
-                      //         _emailController.text.toString(),
-                      //         _passwordController.text.toString(),
-                      //         _nameController.text.toString(),
-                      //         _confirmpasswordController.text.toString())
-                      //     .then((value) {
-                      //   if (value != null && value.token != null) {
-                      //     user = value;
-                      //     Get.toNamed(AppRoutes.loginScreen);
-                      //     print("Signup successful");
-                      //   }
-                      // }).onError((error, stackTrace) {
-                      //   print("Error occurred: $error");
-                      // });
-
                       SignupServices()
                           .signup(
                               _nameController.text.toString(),
@@ -157,18 +152,11 @@ class _SignupScreenState extends State<SignupScreen> {
                           .then((value) {
                         if (value != null) {
                           _storeToken(value.token!);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Signup successful!'),
-                            ),
-                          );
+                          showSuccessDialog(context);
                         }
                       }).onError((error, stackTrace) {
                         print(error.toString());
                       });
-                      // } else {
-                      //   print("Form validation failed");
-                      // }
                     }),
                 SizedBox(height: 30.h),
                 InkWell(
@@ -204,7 +192,6 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  // Success dialog box
   void showSuccessDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -212,33 +199,33 @@ class _SignupScreenState extends State<SignupScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
+            borderRadius: BorderRadius.circular(20.r),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
+              Icon(
                 Icons.check_circle,
                 color: Colors.green,
-                size: 60,
+                size: 60.r,
               ),
-              const SizedBox(height: 20),
-              const Text(
+              SizedBox(height: 20.h),
+              Text(
                 "Registered Successfully",
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.of(context).pop();
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: TColors.primary, // Corrected color
+                  backgroundColor: TColors.primary,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(10.r),
                   ),
                 ),
                 child: Text(

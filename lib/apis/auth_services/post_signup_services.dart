@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:fire_app/features/auth/model/user_model.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class SignupServices {
@@ -20,6 +22,17 @@ class SignupServices {
         print("getting response");
         UserModel userModel = UserModel.fromJson(jsonDecode(response.body));
         print("${userModel.success} ${userModel.message}");
+        Get.defaultDialog(
+          title: "Success",
+          content: const Column(
+            children: [
+              Icon(Icons.check_circle, color: Colors.green, size: 50),
+              SizedBox(height: 10),
+              Text("User created successfully"),
+            ],
+          ),
+        );
+        Get.back();
         return userModel;
       } else {
         print("Status Code: ${response.statusCode}");

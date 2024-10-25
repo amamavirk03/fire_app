@@ -1,19 +1,20 @@
 import 'package:fire_app/common/styles/text_style.dart';
 import 'package:fire_app/utils/constants/colors.dart';
+import 'package:fire_app/utils/constants/image_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StackCard extends StatefulWidget {
   final String title;
-  final String imageUrl;
+  ImageProvider? imageUrl;
   final String cookTime;
   final String avatarImage;
   final String userName;
 
-  const StackCard({
+  StackCard({
     super.key,
     required this.title,
-    required this.imageUrl,
+    this.imageUrl,
     required this.cookTime,
     required this.avatarImage,
     required this.userName,
@@ -57,7 +58,7 @@ class _StackCardState extends State<StackCard> {
               ),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: NetworkImage(widget.imageUrl),
+                image: widget.imageUrl ?? const AssetImage(TImages.food2),
               ),
             ),
           ),
@@ -150,7 +151,7 @@ class ProfileAndSaveRow extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 20.r,
-          backgroundImage: AssetImage(avatarImage),
+          backgroundImage: NetworkImage(avatarImage),
         ),
         SizedBox(width: 10.w),
         Text(

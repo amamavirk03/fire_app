@@ -36,7 +36,7 @@ class GetAppRoute {
       GetPage(
         name: AppRoutes.navigation,
         page: () {
-        var  token = UserModel().token.toString();
+          var token = UserModel().token.toString();
           // final token = Get.arguments;
           return MainNavigation(token: token);
         },
@@ -45,13 +45,13 @@ class GetAppRoute {
       ),
       GetPage(
         name: AppRoutes.signupScreen,
-        page: () => SignupScreen(),
+        page: () => const SignupScreen(),
         transition: Transition.rightToLeft,
         transitionDuration: const Duration(milliseconds: 400),
       ),
       GetPage(
         name: AppRoutes.loginScreen,
-        page: () => LoginScreen(),
+        page: () => const LoginScreen(),
         transition: Transition.downToUp,
         transitionDuration: const Duration(milliseconds: 400),
       ),
@@ -70,21 +70,21 @@ class GetAppRoute {
       GetPage(
         name: AppRoutes.post,
         page: () {
-          final token =
-              Get.arguments as String; // Retrieve the token passed as argument
-          return PostScreen(token: token); // Pass token to PostScreen
+          // final token =
+          //     Get.arguments as String; // Retrieve the token passed as argument
+          return PostScreen(); // Pass token to PostScreen
         },
         transition: Transition.downToUp,
         transitionDuration: const Duration(milliseconds: 400),
       ),
       GetPage(
         name: AppRoutes.recipepage,
-        page: () => const RecipeScreen(),
+        page: () => RecipeScreen(
+          recipeData: Get.arguments as Map<String, dynamic>? ?? {},
+        ),
         transition: Transition.downToUp,
         transitionDuration: const Duration(milliseconds: 400),
       ),
     ];
   }
-
-  //dekh terminal
 }

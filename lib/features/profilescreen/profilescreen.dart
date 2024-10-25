@@ -1,7 +1,7 @@
+import 'package:fire_app/common/components/cutombutton.dart';
 import 'package:fire_app/common/styles/text_style.dart';
 import 'package:fire_app/features/search/search.dart';
 import 'package:fire_app/utils/constants/colors.dart';
-import 'package:fire_app/utils/constants/image_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -14,6 +14,77 @@ class ProfilePageScreen extends StatefulWidget {
 
 class _ProfilePageScreenState extends State<ProfilePageScreen>
     with SingleTickerProviderStateMixin {
+  final List<Recipe> recipes = [
+    Recipe(
+      name: 'Crispy Fried Chicken',
+      imageUrl: 'https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58',
+      duration: '45 mins',
+      description: 'Crispy and juicy fried chicken with special seasoning',
+      ingredients: [
+        '1 whole chicken',
+        '2 cups flour',
+        '1 tsp salt',
+        '1 tsp black pepper',
+        'Vegetable oil for frying'
+      ],
+      instructions: [
+        'Clean the chicken and cut into pieces',
+        'Mix flour with seasonings',
+        'Coat chicken pieces with flour mixture',
+        'Deep fry until golden brown'
+      ],
+      avatarImage: 'https://randomuser.me/api/portraits/men/1.jpg',
+      userName: 'John Doe',
+      userEmail: 'john@example.com',
+      portion: '4 servings',
+    ),
+    Recipe(
+      name: 'Spaghetti Carbonara',
+      imageUrl: 'https://images.unsplash.com/photo-1612874742237-6526221588e3',
+      duration: '30 mins',
+      description: 'Classic Italian pasta dish with creamy sauce',
+      ingredients: [
+        'Spaghetti',
+        'Eggs',
+        'Pecorino Romano',
+        'Pancetta',
+        'Black pepper'
+      ],
+      instructions: [
+        'Cook pasta al dente',
+        'Fry pancetta until crispy',
+        'Mix eggs with cheese',
+        'Combine all ingredients'
+      ],
+      avatarImage: 'https://randomuser.me/api/portraits/women/2.jpg',
+      userName: 'Jane Smith',
+      userEmail: 'jane@example.com',
+      portion: '2 servings',
+    ),
+    Recipe(
+      name: 'Beef Burger',
+      imageUrl: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd',
+      duration: '25 mins',
+      description: 'Juicy homemade beef burger with fresh vegetables',
+      ingredients: [
+        'Ground beef',
+        'Burger buns',
+        'Lettuce',
+        'Tomato',
+        'Cheese'
+      ],
+      instructions: [
+        'Form beef patties',
+        'Grill until desired doneness',
+        'Toast the buns',
+        'Assemble burger with toppings'
+      ],
+      avatarImage: 'https://randomuser.me/api/portraits/men/3.jpg',
+      userName: 'Mike Johnson',
+      userEmail: 'mike@example.com',
+      portion: '4 servings',
+    ),
+  ];
   late TabController _tabController;
 
   @override
@@ -30,20 +101,22 @@ class _ProfilePageScreenState extends State<ProfilePageScreen>
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context, designSize: const Size(375, 812));
+    
     return Scaffold(
       backgroundColor: TColors.white,
       appBar: AppBar(
         backgroundColor: TColors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: Icon(Icons.arrow_back_ios, color: Colors.black, size: 24.sp),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings, color: Colors.black),
+            icon: Icon(Icons.settings, color: Colors.black, size: 24.sp),
             onPressed: () {
               // Add settings functionality
             },
@@ -73,12 +146,14 @@ class _ProfilePageScreenState extends State<ProfilePageScreen>
 
   Widget _buildTabBar() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.sp),
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: TabBar(
         controller: _tabController,
         labelColor: TColors.primary,
         unselectedLabelColor: Colors.grey,
         indicatorColor: TColors.primary,
+        labelStyle: TextStyle(fontSize: 14.sp),
+        unselectedLabelStyle: TextStyle(fontSize: 14.sp),
         tabs: const [
           Tab(text: "My Recipes"),
           Tab(text: "Favorites"),
@@ -90,16 +165,14 @@ class _ProfilePageScreenState extends State<ProfilePageScreen>
 
   Widget _buildTabContent(String tabTitle, String description) {
     return Padding(
-      padding: EdgeInsets.all(20.sp),
+      padding: EdgeInsets.all(20.w),
       child: ListView.builder(
-        itemCount: 5,
+        itemCount: recipes.length,
         itemBuilder: (context, index) {
           return Column(
             children: [
-              customImageTextRow(),
-              SizedBox(
-                height: 10.h,
-              )
+              recipeCard(context, recipes[index]),
+              SizedBox(height: 10.h)
             ],
           );
         },
@@ -109,7 +182,7 @@ class _ProfilePageScreenState extends State<ProfilePageScreen>
 
   Widget buildUserProfile() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.sp, vertical: 10.sp),
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -117,27 +190,26 @@ class _ProfilePageScreenState extends State<ProfilePageScreen>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CircleAvatar(
-                radius: 30.sp,
-                backgroundImage: const AssetImage(
-                  TImages.chicken,
-                ),
+                radius: 30.r,
+                backgroundImage: const NetworkImage(
+                    "https://randomuser.me/api/portraits/men/3.jpg"),
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '3', // Display the dynamic post count
+                    '3',
                     style: TextStyle(
                       fontSize: 20.sp,
-                      color: TColors.primary, // Primary color from TColors
+                      color: TColors.primary,
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    'Posts', // Text under the number
+                    'Posts',
                     style: TextStyle(
                       fontSize: 16.sp,
-                      color: TColors.black, // Black color from TColors
+                      color: TColors.black,
                     ),
                   ),
                 ],
@@ -146,18 +218,18 @@ class _ProfilePageScreenState extends State<ProfilePageScreen>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '100', // Example number
+                    '100',
                     style: TextStyle(
                       fontSize: 20.sp,
-                      color: TColors.primary, // Primary color from TColors
+                      color: TColors.primary,
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    'Followers', // Text under the number
+                    'Followers',
                     style: TextStyle(
                       fontSize: 16.sp,
-                      color: TColors.black, // Black color from TColors
+                      color: TColors.black,
                     ),
                   ),
                 ],
@@ -166,37 +238,35 @@ class _ProfilePageScreenState extends State<ProfilePageScreen>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '30', // Example number
+                    '30',
                     style: TextStyle(
                       fontSize: 20.sp,
-                      color: TColors.primary, // Primary color from TColors
+                      color: TColors.primary,
                     ),
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    'Following', // Text under the number
+                    'Following',
                     style: TextStyle(
                       fontSize: 16.sp,
-                      color: TColors.black, // Black color from TColors
+                      color: TColors.black,
                     ),
                   ),
                 ],
               ),
             ],
           ),
-          SizedBox(height: 10.sp),
+          SizedBox(height: 10.h),
           Text(
-            'No bio available',
+            'No bio',
             style: TTextStyles.subtitle.copyWith(
-                color: TColors.darkerGrey, fontWeight: FontWeight.w500),
+                color: TColors.darkerGrey, 
+                fontWeight: FontWeight.w500,
+                fontSize: 14.sp),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 5.sp),
-          Text(
-            ' ',
-            style: TTextStyles.subtitle.copyWith(
-                color: TColors.darkerGrey, fontWeight: FontWeight.w500),
-          ),
+          SizedBox(height: 15.h),
+          CustomButton(buttonText: "Edit Profile", onPressed: () {}),
         ],
       ),
     );

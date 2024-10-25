@@ -25,7 +25,7 @@ class _MainNavigationState extends State<MainNavigation> {
     _pages = [
       const HomeScreen(),
       const SearchScreen(),
-      PostScreen(token: widget.token), // Pass token to PostScreen
+      const PostScreen(), // Pass token to PostScreen
       const SavedScreen(),
       const ProfilePageScreen(),
     ];

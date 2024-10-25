@@ -1,7 +1,6 @@
 import 'package:fire_app/common/styles/text_style.dart';
 import 'package:fire_app/routes/routename.dart';
 import 'package:fire_app/utils/constants/colors.dart';
-import 'package:fire_app/utils/constants/image_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -23,7 +22,8 @@ class _HomeScreenAppbarState extends State<HomeScreenAppbar> {
           CircleAvatar(
             radius: 30.r,
             backgroundColor: TColors.grey,
-            backgroundImage: const AssetImage(TImages.chicken),
+            backgroundImage: const NetworkImage(
+                "https://randomuser.me/api/portraits/men/1.jpg"),
           ),
           SizedBox(width: 10.w),
           Column(

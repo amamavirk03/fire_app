@@ -26,6 +26,14 @@ class DisplayScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Initialize ScreenUtil with the design size
+    ScreenUtil.init(
+      context,
+      designSize: const Size(375, 812), // iPhone X design size as reference
+      minTextAdapt: true,
+      splitScreenMode: true,
+    );
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -33,14 +41,14 @@ class DisplayScreen extends StatelessWidget {
           children: [
             imageUrl != null
                 ? Image.asset(
-                    TImages.chicken, // Change this to your desired asset image
-                    height: 300.h,
+                    TImages.chicken,
+                    height: 0.37.sh, // 37% of screen height
                     width: double.infinity,
                     fit: BoxFit.cover,
                   )
                 : Container(
                     width: double.infinity,
-                    height: 300.h,
+                    height: 0.37.sh,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage(TImages.chicken),
@@ -55,18 +63,18 @@ class DisplayScreen extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TTextStyles.heading.copyWith(fontSize: 30.sp),
+                    style: TTextStyles.heading.copyWith(fontSize: 24.sp),
                   ),
                   SizedBox(height: 16.h),
                   Container(
                     width: double.infinity,
-                    height: 60.h,
+                    height: 0.08.sh,
                     decoration: BoxDecoration(
                       color: TColors.buttonbackground,
-                      borderRadius: BorderRadius.circular(50.sp),
+                      borderRadius: BorderRadius.circular(25.r),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 60.w),
+                      padding: EdgeInsets.symmetric(horizontal: 0.15.sw),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -76,7 +84,7 @@ class DisplayScreen extends StatelessWidget {
                               Text(
                                 portion,
                                 style: TextStyle(
-                                  fontSize: 24.sp,
+                                  fontSize: 18.sp,
                                   color: TColors.primary,
                                 ),
                               ),
@@ -84,7 +92,7 @@ class DisplayScreen extends StatelessWidget {
                               Text(
                                 'Portion',
                                 style: TextStyle(
-                                  fontSize: 16.sp,
+                                  fontSize: 14.sp,
                                   color: TColors.black,
                                 ),
                               ),
@@ -101,7 +109,7 @@ class DisplayScreen extends StatelessWidget {
                               Text(
                                 cooktime,
                                 style: TextStyle(
-                                  fontSize: 24.sp,
+                                  fontSize: 18.sp,
                                   color: TColors.primary,
                                 ),
                               ),
@@ -109,7 +117,7 @@ class DisplayScreen extends StatelessWidget {
                               Text(
                                 'Time',
                                 style: TextStyle(
-                                  fontSize: 16.sp,
+                                  fontSize: 14.sp,
                                   color: TColors.black,
                                 ),
                               ),
@@ -122,7 +130,7 @@ class DisplayScreen extends StatelessWidget {
                   SizedBox(height: 20.h),
                   Text(
                     'Description',
-                    style: TTextStyles.heading.copyWith(fontSize: 20.sp),
+                    style: TTextStyles.heading.copyWith(fontSize: 18.sp),
                   ),
                   SizedBox(height: 8.h),
                   Text(
@@ -133,17 +141,20 @@ class DisplayScreen extends StatelessWidget {
                   SizedBox(height: 24.h),
                   Text(
                     'Ingredients:',
-                    style: TTextStyles.heading.copyWith(fontSize: 20.sp),
+                    style: TTextStyles.heading.copyWith(fontSize: 18.sp),
                   ),
                   ListView.builder(
                     shrinkWrap: true,
-                    // physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: ingredients.length,
                     itemBuilder: (context, index) {
-                      return Text(
-                        '- ${ingredients[index]}',
-                        style: TTextStyles.subtitle
-                            .copyWith(fontSize: 14.sp, color: TColors.black),
+                      return Padding(
+                        padding: EdgeInsets.symmetric(vertical: 4.h),
+                        child: Text(
+                          '- ${ingredients[index]}',
+                          style: TTextStyles.subtitle
+                              .copyWith(fontSize: 14.sp, color: TColors.black),
+                        ),
                       );
                     },
                   ),
